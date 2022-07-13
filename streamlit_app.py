@@ -7,8 +7,8 @@ from googleapiclient.discovery import build
 from googleapiclient.http import HttpRequest
 
 SCOPE = "https://www.googleapis.com/auth/spreadsheets"
-SPREADSHEET_ID = "1QlPTiVvfRM82snGN6LELpNkOwVI1_Mp9J9xeJe-QoaA"
-SHEET_NAME = "Database"
+SPREADSHEET_ID = "17Ku9ywBUfrRVXUsg66ufpCS3gcEfpbW1-EBxFKsKu4M"
+SHEET_NAME = "weekly progress"
 GSHEET_URL = f"https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}"
 
 
@@ -45,7 +45,7 @@ def get_data(gsheet_connector) -> pd.DataFrame:
         gsheet_connector.values()
         .get(
             spreadsheetId=SPREADSHEET_ID,
-            range=f"{SHEET_NAME}!A:E",
+            range=f"{SHEET_NAME}!A:I",
         )
         .execute()
     )
@@ -59,7 +59,7 @@ def get_data(gsheet_connector) -> pd.DataFrame:
 def add_row_to_gsheet(gsheet_connector, row) -> None:
     gsheet_connector.values().append(
         spreadsheetId=SPREADSHEET_ID,
-        range=f"{SHEET_NAME}!A:E",
+        range=f"{SHEET_NAME}!A:I",
         body=dict(values=row),
         valueInputOption="USER_ENTERED",
     ).execute()
@@ -83,9 +83,9 @@ form = st.form(key="annotation")
 
 with form:
     cols = st.columns((1, 1))
-    author = cols[0].text_input("Report author:")
+    author = cols[0].text_input("Week")
     bug_type = cols[1].selectbox(
-        "Bug type:", ["Front-end", "Back-end", "Data related", "404"], index=2
+        "Morale", ["0", "3", "6", "10"], index=2
     )
     comment = st.text_area("Comment:")
     cols = st.columns(2)
